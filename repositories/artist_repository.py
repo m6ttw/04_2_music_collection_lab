@@ -23,7 +23,7 @@ def delete_all():
 #3 - Find Artists by their ID
 def select(id):
     artist = None
-    sql = "SELECT * FROM users WHERE id = %s"
+    sql = "SELECT * FROM artists WHERE id = %s"
     values = [id]
     result = run_sql(sql, values)[0]
 
@@ -71,6 +71,6 @@ def update(artist):
 
 # - Delete Artists
 def delete(id):
-    sql = "DELETE FROM artists WHERE is = %s"
+    sql = "DELETE FROM artists WHERE id = %s"
     values = [id]
     run_sql(sql, values)
