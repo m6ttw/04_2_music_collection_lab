@@ -4,6 +4,7 @@ from models.artist import Artist
 from models.album import Album
 
 
+#1 - Create and Save Artists
 def save(artist):
     sql =  "INSERT INTO artists (name) VALUES (%s) RETURNING *"
     values = [artist.name]
@@ -13,6 +14,25 @@ def save(artist):
     return artist
 
 
+#2 - Delete all Artists
+def delete_all():
+    sql = "DELETE FROM artists"
+    run_sql(sql)
+
+
+#3 - Find Artists by their ID
+def select(id):
+    artist = None
+    sql = "SELECT * FROM users WHERE id = %s"
+    values = [id]
+    result = run_sql(sql, values)[0]
+
+    if result is not None:
+        artist = Artist(result['name'], result['id'])
+    return artist
+
+
+#4 - List All Artists
 def select_all():
     artists = []
 
@@ -25,34 +45,10 @@ def select_all():
     return artists
 
 
-def select(id):
-    artist = None
-    sql = "SELECT * FROM users WHERE id = %s"
-    values = [id]
-    result = run_sql(sql, values)[0]
-
-    if result is not None:
-        artist = Artist(result['name'], result['id'])
-    return artist
+## EXTENSIONS ##
 
 
-def delete_all():
-    sql = "DELETE FROM artists"
-    run_sql(sql)
-
-
-def delete(id):
-    sql = "DELETE FROM artists WHERE is = %s"
-    values = [id]
-    run_sql(sql, values)
-
-
-def update(artist):
-    sql = "UPDATE artists SET name = %s WHERE id = %s"
-    values = [artist.name, artist.id]
-    run_sql(sql, values)
-
-
+#1 - List all the albums by an artist
 def albums(artist):
     albums = []
 
@@ -64,3 +60,17 @@ def albums(artist):
         album = Album(row['title'], row['genre'], artist)
         albums.append(album)
     return albums
+
+
+#2 - Edit Artists
+def update(artist):
+    sql = "UPDATE artists SET name = %s WHERE id = %s"
+    values = [artist.name, artist.id]
+    run_sql(sql, values)
+
+
+# - Delete Artists
+def delete(id):
+    sql = "DELETE FROM artists WHERE is = %s"
+    values = [id]
+    run_sql(sql, values)
